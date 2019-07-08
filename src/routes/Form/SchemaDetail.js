@@ -40,7 +40,7 @@ function SchemaDetail({ match }) {
     setResult({ ...a })
   }
   const submit = async values => {
-    const result = translateResult(values, schema)
+    const result = translateResult(values, schema.schema)
     setSubmitLoading(true)
     try {
       let { result: ret } = await services.submit(schema.id, result)
