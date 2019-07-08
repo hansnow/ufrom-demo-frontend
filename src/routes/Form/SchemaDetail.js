@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Collapse, Button, Modal, message } from 'antd'
+import { Collapse, Button, Modal, Spin, message } from 'antd'
 import SchemaForm, { createAsyncFormActions } from '@uform/antd'
 import _get from 'lodash/get'
 import * as services from '../../services'
@@ -63,19 +63,25 @@ function SchemaDetail({ match }) {
     <div>
       <Collapse defaultActiveKey={['preview', 'result']}>
         <Collapse.Panel key="preview" header="表单预览">
-          <Button
-            type="primary"
-            onClick={() => actions.submit()}
-            loading={submitLoading}
-          >
-            提交
-          </Button>
-          <SchemaForm
-            actions={actions}
-            schema={schema.schema}
-            onSubmit={submit}
-            onChange={handleChange}
-          />
+          {loading ? (
+            <Spin spinning={true} size="large" />
+          ) : (
+            <>
+              <Button
+                type="primary"
+                onClick={() => actions.submit()}
+                loading={submitLoading}
+              >
+                提交
+              </Button>
+              <SchemaForm
+                actions={actions}
+                schema={schema.schema}
+                onSubmit={submit}
+                onChange={handleChange}
+              />
+            </>
+          )}
         </Collapse.Panel>
         <Collapse.Panel key="result" header="表单结果">
           <pre>
