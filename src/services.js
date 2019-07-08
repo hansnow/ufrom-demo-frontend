@@ -7,10 +7,10 @@ export function fakeApi() {
   return new Promise(resolve => setTimeout(resolve, 1000))
 }
 
-export function add(name, schema) {
+export function add(name, url, schema) {
   return fetch(prefix + '/schema', {
     method: 'POST',
-    body: JSON.stringify({ name, schema }),
+    body: JSON.stringify({ name, url, schema }),
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     }
@@ -29,4 +29,14 @@ export function get(id) {
 
 export function getList() {
   return fetch(prefix + '/schema').then(resp => resp.json())
+}
+
+export function submit(id, result) {
+  return fetch(prefix + '/submit/' + id, {
+    method: 'POST',
+    body: JSON.stringify({ result }),
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  }).then(resp => resp.json())
 }
