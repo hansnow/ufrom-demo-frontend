@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Collapse, Button, Modal, Spin, message } from 'antd'
+import { Link } from 'react-router-dom'
+import { Collapse, Button, Modal, Spin, Breadcrumb, message } from 'antd'
 import SchemaForm, { createAsyncFormActions } from '@uform/antd'
 import _get from 'lodash/get'
 import * as services from '../../services'
@@ -61,6 +62,12 @@ function SchemaDetail({ match }) {
   }, [match])
   return (
     <div>
+      <Breadcrumb style={{ marginBottom: 8 }}>
+        <Breadcrumb.Item>
+          <Link to="/form">Schema List</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Schema Detail</Breadcrumb.Item>
+      </Breadcrumb>
       <Collapse defaultActiveKey={['preview', 'result']}>
         <Collapse.Panel key="preview" header="表单预览">
           {loading ? (
