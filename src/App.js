@@ -11,6 +11,7 @@ import {
 
 import Form from './routes/Form'
 import Builder from './routes/Builder'
+import UploadDemo from './routes/UploadDemo'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -30,6 +31,11 @@ function SiderMenu({ location }) {
         <Icon type="edit" />
         <span>Builder</span>
         <Link to="/builder" />
+      </Menu.Item>
+      <Menu.Item key="upload">
+        <Icon type="upload" />
+        <span>Upload</span>
+        <Link to="/upload" />
       </Menu.Item>
     </Menu>
   )
@@ -73,6 +79,7 @@ function App() {
               <Route path="/" exact component={Index} />
               <Route path="/form" component={Form} />
               <Route path="/builder" component={Builder} />
+              <Route path="/upload" component={UploadDemo} />
             </Content>
             <Footer style={{ textAlign: 'center' }}>Created by Xiaohan</Footer>
           </Layout>
