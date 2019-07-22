@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import SchemaForm, {
   FormButtonGroup,
   Submit,
@@ -19,13 +19,21 @@ function getBase64(file) {
 }
 
 function UploadDiy(props){
+  const [fileList, setFileList] = useState(props.value)
+
   const handleChange = info => {
     const { onChange } = props
     const { fileList } = info
+    setFileList(fileList)
     let arr = []
     fileList.map(async v => {
-      const result= await getBase64(v.originFileObj)
-      arr.push(result)
+      if(!v.url && !v.preview){
+        const result= await getBase64(v.originFileObj)
+        arr.push(result)
+      }else{
+        const result= v.url || v.preview
+        arr.push(result)
+      }
     })
     onChange(arr)
   }
@@ -41,6 +49,7 @@ function UploadDiy(props){
     <Upload
       onChange={handleChange}
       beforeUpload={beforeUpload}
+      fileList={fileList}
       {...restProps}
     >
       {render()}
@@ -51,6 +60,15 @@ registerFormField("uploadDiy", connect()(props => <UploadDiy {...props} />))
 
 function UploadDemo(){
   return  <SchemaForm
+    initialValues = {{
+      uploadImage: [
+        {
+          uid: '-1',
+          name: 'xxx.png',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        }
+      ]
+    }}
     labelCol={4}
     wrapperCol={20}
     schema={{
@@ -66,7 +84,19 @@ function UploadDemo(){
                 <Icon type="plus" />
                 <div className="ant-upload-text">Upload</div>
               </div>
-            )
+            ),
+            /**
+             * Antd 的 Upload 组件是通过 fileList 属性受控的，
+             * 但是这里自定义的上传组件 uploadDiy 是不能通过 fileList 去控制
+             * */
+            // 'fileList':[
+            //   {
+            //     uid: '-1',
+            //     name: 'xxx.png',
+            //     status: 'done',
+            //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            //   }
+            // ]
           },
           "title": "卡片上传文件"
         },
